@@ -1,18 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="Checkbox">
+    <h1>Checkbox</h1>
+    <button @click="callAPI()">CallAPI</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "home",
-  components: {
-    HelloWorld
+  name: "Checkbox",
+  methods: {
+    callAPI() {
+      fetch("https://opendata.resas-portal.go.jp/api/v1/prefectures", {
+        headers: { "X-API-KEY": "SkNZ7XOnPO1NS2QaiWWdg579PLTLtodHjImoGAA2" }
+      })
+        .then(response => response.json())
+        .then(res => {
+          console.log(res);
+        });
+    }
   }
 };
 </script>

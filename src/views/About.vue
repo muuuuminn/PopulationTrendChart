@@ -1,5 +1,11 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="Chart">
+    <h1>Chart</h1>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Chart"
+};
+</script>

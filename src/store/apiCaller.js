@@ -5,7 +5,16 @@ import palette from "google-palette";
 const state = {
   prefectures: [],
   columns: [],
-  labels: []
+  labels: [],
+  colorList: palette("mpn65", 47).map(function(hex) {
+    return "#" + hex;
+  })
+};
+
+const getters = {
+  pickColor: state => prefCode => {
+    return state.colorList[prefCode - 1];
+  }
 };
 
 const mutations = {
@@ -45,7 +54,7 @@ const actions = {
         console.log(error);
       });
   },
-  fetchDemographics({ state, commit }, payload) {
+  fetchDemographics({ state, commit, getters }, payload) {
     axios({
       method: "GET",
       url: apiConfig.demographicsAPI,
@@ -53,22 +62,16 @@ const actions = {
       params: { prefCode: payload.prefCode }
     })
       .then(response => {
-        const color = palette("mpn65", 47, state.columns.length + 1).map(
-          function(hex) {
-            return "#" + hex;
-          }
-        );
-        console.log(color);
+        const color = getters.pickColor(payload.prefCode);
         const demographics = {
           label: payload.prefName,
           data: response.data.result.data[0].data.map(arr => arr.value),
           fill: false,
-          steppedLine: 0,
-          //borderColor: color
-          cubicInterpolationMode: "default"
+          backgroundColor: color,
+          borderColor: color,
+          pointBackgroundColor: color
         };
         const labels = response.data.result.data[0].data.map(arr => arr.year);
-        console.log(demographics.data);
         commit("setDemographics", demographics);
         commit("setLabels", labels);
       })
@@ -81,6 +84,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 };

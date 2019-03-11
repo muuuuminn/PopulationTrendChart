@@ -1,6 +1,6 @@
 <template>
-  <div class="Home">
-    <h1>総人口推移</h1>
+  <div>
+    <h1 class="title">総人口推移</h1>
     <prefectures></prefectures>
     <line-chart :chart-data="datacollection" v-if="columns.length"></line-chart>
   </div>
@@ -42,3 +42,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.title {
+  text-align: center;
+}
+</style>

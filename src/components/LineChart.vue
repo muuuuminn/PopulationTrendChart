@@ -19,7 +19,8 @@ export default {
               },
               scaleLabel: {
                 display: true,
-                labelString: "人口数"
+                labelString: "人口数",
+                fontSize: 15
               }
             }
           ],
@@ -30,14 +31,16 @@ export default {
               },
               scaleLabel: {
                 display: true,
-                labelString: "年度"
+                labelString: "年度",
+                fontSize: 15
               }
             }
           ]
         },
         legend: {
           display: true,
-          position: "right"
+          position: "right",
+          labels: { fontSize: 15 }
         },
         responsive: true,
         maintainAspectRatio: false,
@@ -46,6 +49,10 @@ export default {
           line: {
             tension: 0
           }
+        },
+        tooltips: {
+          mode: "point",
+          intersect: true
         }
       }
     };

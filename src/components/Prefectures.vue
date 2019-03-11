@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <h3>都道府県一覧</h3>
-    <div class="pref-container">
+  <div class="pref-container">
+    <h3 class="">都道府県一覧</h3>
+    <div class="checkboxes">
       <ul v-for="pref in prefectures" :key="pref.prefCode">
         <label>
-          {{ pref.prefName }}
           <input type="checkbox" @click="toggleChart($event, pref)" />
+          {{ pref.prefName }}
         </label>
       </ul>
     </div>
@@ -45,6 +45,9 @@ export default {
 
 <style scoped>
 .pref-container {
+  margin: 2% 2% 10% 2%;
+}
+.checkboxes {
   display: grid;
   grid-template-columns: repeat(auto-fit, 150px);
 }

@@ -1,7 +1,8 @@
 <template>
   <div class="Home">
+    <h1>総人口推移</h1>
     <prefectures></prefectures>
-    <line-chart :chart-data="datacollection" v-if="columns"></line-chart>
+    <line-chart :chart-data="datacollection" v-if="columns.length"></line-chart>
   </div>
 </template>
 
@@ -18,21 +19,11 @@ export default {
   name: "Home",
   data() {
     return {
-      // instantiating datacollection with null
       datacollection: null
     };
   },
-  created() {
-    //anytime the vue instance is created, call the fillData() function.
-    //this.fillData();
-  },
+  created() {},
   computed: {
-    // datasets() {
-    //   return {
-    //     labels: ["January", "February", "March"],
-    //     datasets: this.columns
-    //   };
-    // },
     ...mapState("apiCaller", ["columns", "labels"])
   },
   watch: {
@@ -47,10 +38,6 @@ export default {
         labels: this.labels,
         datasets: this.columns
       };
-    },
-    getRandomInt() {
-      // JS function to generate numbers to be used for the chart
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     }
   }
 };

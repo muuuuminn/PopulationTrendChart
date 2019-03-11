@@ -11,10 +11,12 @@ export default {
         scales: {
           yAxes: [
             {
+              ticks: {
+                beginAtZero: true
+              },
               gridLines: {
                 display: false
               },
-              stacked: true,
               scaleLabel: {
                 display: true,
                 labelString: "人口数"

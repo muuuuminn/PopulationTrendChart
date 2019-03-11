@@ -1,14 +1,12 @@
 <template>
-  <div class="checkbox">
-    <h1>人口推移</h1>
-    <div>
-      <ul>
-        <li v-for="pref in prefectures" :key="pref.prefCode">
-          <label>
-            {{ pref.prefName }}
-            <input type="checkbox" @click="toggleChart($event, pref)" />
-          </label>
-        </li>
+  <div>
+    <h3>都道府県一覧</h3>
+    <div class="pref-container">
+      <ul v-for="pref in prefectures" :key="pref.prefCode">
+        <label>
+          {{ pref.prefName }}
+          <input type="checkbox" @click="toggleChart($event, pref)" />
+        </label>
       </ul>
     </div>
   </div>
@@ -45,4 +43,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pref-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+}
+ul {
+  margin: 5px;
+}
+</style>

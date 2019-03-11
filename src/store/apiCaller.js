@@ -4,7 +4,8 @@ import palette from "google-palette";
 
 const state = {
   prefectures: [],
-  columns: []
+  columns: [],
+  labels: []
 };
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
     // );
     // console.log(targetIndex);
     // state.columns.splice(targetIndex, 1);
+  },
+  setLabels(state, payload) {
+    state.labels = payload;
   }
 };
 
@@ -55,10 +59,6 @@ const actions = {
           }
         );
         console.log(color);
-        // const demographics = [
-        //   payload.prefName,
-        //   ...response.data.result.data[0].data.map(arr => arr.value)
-        // ];
         const demographics = {
           label: payload.prefName,
           data: response.data.result.data[0].data.map(arr => arr.value),
@@ -67,8 +67,10 @@ const actions = {
           //borderColor: color
           cubicInterpolationMode: "default"
         };
+        const labels = response.data.result.data[0].data.map(arr => arr.year);
         console.log(demographics.data);
         commit("setDemographics", demographics);
+        commit("setLabels", labels);
       })
       .catch(error => {
         console.log(error);

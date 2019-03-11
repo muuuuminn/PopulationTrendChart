@@ -33,12 +33,10 @@ export default {
     //     datasets: this.columns
     //   };
     // },
-    ...mapState("apiCaller", ["columns"])
+    ...mapState("apiCaller", ["columns", "labels"])
   },
   watch: {
-    columns: function(val) {
-      console.log("watch");
-      console.log(val);
+    columns: function() {
       this.fillData();
     }
   },
@@ -46,60 +44,8 @@ export default {
     fillData() {
       this.datacollection = {
         // Data for the y-axis of the chart
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ],
+        labels: this.labels,
         datasets: this.columns
-
-        //[
-        // {
-        //   label: "Data One",
-        //   backgroundColor: "#f87979",
-        //   data: [
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt(),
-        //     this.getRandomInt()
-        //   ]
-        // },
-        // {
-        //   label: "Data two",
-        //   backgroundColor: "#ffffff",
-        //   data: [
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2,
-        //     this.getRandomInt() * 2
-        //   ]
-        // }
-        //]
       };
     },
     getRandomInt() {

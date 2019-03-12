@@ -3,7 +3,6 @@ import axios from "axios";
 import palette from "google-palette";
 
 const state = {
-  prefectures: [],
   datasets: [],
   yAxesLabels: [],
   colorCodes: palette("mpn65", 47).map(function(rrggbb) {
@@ -18,21 +17,14 @@ const getters = {
 };
 
 const mutations = {
-  setPrefectures(state, payload) {
-    state.prefectures = payload;
-  },
   addDemographics(state, payload) {
     state.datasets.push(payload);
   },
   removeDemographics(state, payload) {
-    state.datasets = state.datasets.filter(
-      demographics => demographics.label != payload.prefName
+    const targetIndex = state.datasets.findIndex(
+      demographics => demographics.label == payload
     );
-    // const targetIndex = state.datasets.findIndex(
-    //   demographics => demographics.label == payload.prefName
-    // );
-    // console.log(targetIndex);
-    // state.datasets.splice(targetIndex, 1);
+    state.datasets.splice(targetIndex, 1);
   },
   setYAxesLabels(state, payload) {
     state.yAxesLabels = payload;
@@ -40,31 +32,17 @@ const mutations = {
 };
 
 const actions = {
-  requestPrefectures(context) {
-    axios({
-      method: "GET",
-      url: resas.prefecturesAPI,
-      headers: { "X-API-KEY": resas.apiKey }
-    })
-      .then(response => {
-        const prefectures = response.data.result;
-        context.commit("setPrefectures", prefectures);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
-  requestDemographics({ state, commit, getters }, payload) {
+  requestDemographics({ commit, getters }, { prefName, prefCode }) {
     axios({
       method: "GET",
       url: resas.demographicsAPI,
       headers: { "X-API-KEY": resas.apiKey },
-      params: { prefCode: payload.prefCode }
+      params: { prefCode: prefCode }
     })
       .then(response => {
-        const colorCode = getters.pickColorCode(payload.prefCode);
+        const colorCode = getters.pickColorCode(prefCode);
         const demographics = {
-          label: payload.prefName,
+          label: prefName,
           data: response.data.result.data[0].data.map(arr => arr.value),
           fill: false,
           backgroundColor: colorCode,
@@ -80,6 +58,9 @@ const actions = {
       .catch(error => {
         console.log(error);
       });
+  },
+  removeDemographics({ commit }, { prefName }) {
+    commit("removeDemographics", prefName);
   }
 };
 

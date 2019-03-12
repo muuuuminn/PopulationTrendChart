@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Prefectures",
   data: function() {
@@ -23,11 +23,11 @@ export default {
     this.requestPrefectures();
   },
   computed: {
-    ...mapState("apiCaller", ["prefectures"])
+    ...mapState("prefectures", ["prefectures"])
   },
   methods: {
-    ...mapActions("apiCaller", ["requestPrefectures", "requestDemographics"]),
-    ...mapMutations("apiCaller", ["removeDemographics"]),
+    ...mapActions("prefectures", ["requestPrefectures"]),
+    ...mapActions("lineChart", ["requestDemographics", "removeDemographics"]),
     toggleLine(event, pref) {
       if (event.target.checked) {
         this.requestDemographics(pref);

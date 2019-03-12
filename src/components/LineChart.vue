@@ -57,11 +57,6 @@ export default {
       }
     };
   },
-  // computed: {
-  //   trendChartData() {
-  //     return this.chartData;
-  //   }
-  // },
   mounted() {
     this.renderChart(this.chartData, this.options);
   }

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import Prefectures from "@/components/Prefectures";
 import LineChart from "@/components/LineChart";
 
@@ -22,9 +22,8 @@ export default {
       chartData: null
     };
   },
-  created() {},
   computed: {
-    ...mapState("apiCaller", ["datasets", "yAxesLabels"])
+    ...mapState("lineChart", ["datasets", "yAxesLabels"])
   },
   watch: {
     datasets: function() {
@@ -34,7 +33,6 @@ export default {
   methods: {
     fillData() {
       this.chartData = {
-        // Data for the y-axis of the chart
         labels: this.yAxesLabels,
         datasets: this.datasets
       };

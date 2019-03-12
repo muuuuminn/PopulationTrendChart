@@ -1,4 +1,6 @@
-# populationtrendschart
+# PopulationTrendsChart
+
+[DEMO](https://japan-population-trend-chart.netlify.com/)
 
 ## Project setup
 ```

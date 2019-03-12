@@ -2,7 +2,7 @@
   <div>
     <h1 class="title">総人口推移</h1>
     <prefectures></prefectures>
-    <line-chart :chart-data="datacollection" v-if="columns.length"></line-chart>
+    <line-chart :chart-data="chartData" v-if="datasets.length"></line-chart>
   </div>
 </template>
 
@@ -19,24 +19,24 @@ export default {
   name: "Home",
   data() {
     return {
-      datacollection: null
+      chartData: null
     };
   },
   created() {},
   computed: {
-    ...mapState("apiCaller", ["columns", "labels"])
+    ...mapState("apiCaller", ["datasets", "yAxesLabels"])
   },
   watch: {
-    columns: function() {
+    datasets: function() {
       this.fillData();
     }
   },
   methods: {
     fillData() {
-      this.datacollection = {
+      this.chartData = {
         // Data for the y-axis of the chart
-        labels: this.labels,
-        datasets: this.columns
+        labels: this.yAxesLabels,
+        datasets: this.datasets
       };
     }
   }

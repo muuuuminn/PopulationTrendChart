@@ -1,10 +1,10 @@
 <template>
-  <div class="pref-container">
+  <div class="prefectures-container">
     <h3 class="">都道府県一覧</h3>
     <div class="checkboxes">
       <ul v-for="pref in prefectures" :key="pref.prefCode">
         <label>
-          <input type="checkbox" @click="toggleChart($event, pref)" />
+          <input type="checkbox" @click="toggleLine($event, pref)" />
           {{ pref.prefName }}
         </label>
       </ul>
@@ -15,28 +15,24 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
-  name: "checkbox",
+  name: "Prefectures",
   data: function() {
     return {};
   },
   mounted() {
-    this.fetchPrefectures();
+    this.requestPrefectures();
   },
   computed: {
     ...mapState("apiCaller", ["prefectures"])
   },
   methods: {
-    ...mapActions("apiCaller", [
-      "fetchPrefectures",
-      "fetchDemographics",
-      "deleteChart"
-    ]),
-    ...mapMutations("apiCaller", ["deleteDemographics"]),
-    toggleChart(event, pref) {
+    ...mapActions("apiCaller", ["requestPrefectures", "requestDemographics"]),
+    ...mapMutations("apiCaller", ["removeDemographics"]),
+    toggleLine(event, pref) {
       if (event.target.checked) {
-        this.fetchDemographics(pref);
+        this.requestDemographics(pref);
       } else {
-        this.deleteDemographics(pref);
+        this.removeDemographics(pref);
       }
     }
   }
@@ -44,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-.pref-container {
+.prefectures-container {
   margin: 2% 2% 10% 2%;
 }
 .checkboxes {

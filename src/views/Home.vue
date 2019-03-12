@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="title">総人口推移</h1>
+    <h1 class="title">都道府県別人口推移</h1>
     <prefectures></prefectures>
-    <line-chart :chart-data="chartData" v-if="datasets.length"></line-chart>
+    <line-chart :chart-data="chartData"></line-chart>
   </div>
 </template>
 
@@ -27,11 +27,11 @@ export default {
   },
   watch: {
     datasets: function() {
-      this.fillData();
+      this.fillChartData();
     }
   },
   methods: {
-    fillData() {
+    fillChartData() {
       this.chartData = {
         labels: this.yAxesLabels,
         datasets: this.datasets

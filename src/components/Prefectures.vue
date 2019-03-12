@@ -3,8 +3,12 @@
     <h3 class="">都道府県一覧</h3>
     <div class="checkboxes">
       <ul v-for="pref in prefectures" :key="pref.prefCode">
-        <label>
-          <input type="checkbox" @click="toggleLine($event, pref)" />
+        <input
+          type="checkbox"
+          :id="pref.prefName"
+          @click="toggleLine($event, pref)"
+        />
+        <label :for="pref.prefName">
           {{ pref.prefName }}
         </label>
       </ul>
@@ -29,8 +33,12 @@ export default {
     ...mapActions("prefectures", ["requestPrefectures"]),
     ...mapActions("lineChart", ["requestDemographics", "removeDemographics"]),
     toggleLine(event, pref) {
-      if (event.target.checked) {
-        this.requestDemographics(pref);
+      const element = event.target;
+      if (element.checked) {
+        this.requestDemographics({
+          pref: pref,
+          element: element
+        });
       } else {
         this.removeDemographics(pref);
       }

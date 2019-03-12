@@ -32,32 +32,30 @@ const mutations = {
 };
 
 const actions = {
-  requestDemographics({ commit, getters }, { prefName, prefCode }) {
-    axios({
-      method: "GET",
-      url: resas.demographicsAPI,
-      headers: { "X-API-KEY": resas.apiKey },
-      params: { prefCode: prefCode }
-    })
-      .then(response => {
-        const colorCode = getters.pickColorCode(prefCode);
-        const demographics = {
-          label: prefName,
-          data: response.data.result.data[0].data.map(arr => arr.value),
-          fill: false,
-          backgroundColor: colorCode,
-          borderColor: colorCode,
-          pointBackgroundColor: colorCode
-        };
-        const yAxesLabels = response.data.result.data[0].data.map(
-          arr => arr.year
-        );
-        commit("addDemographics", demographics);
-        commit("setYAxesLabels", yAxesLabels);
-      })
-      .catch(error => {
-        console.log(error);
+  async requestDemographics({ commit, getters }, { pref, element }) {
+    try {
+      element.disabled = true;
+      const { data } = await axios.get(resas.demographicsAPI, {
+        headers: { "X-API-KEY": resas.apiKey },
+        params: { prefCode: pref.prefCode }
       });
+      const colorCode = getters.pickColorCode(pref.prefCode);
+      const demographics = {
+        label: pref.prefName,
+        data: data.result.data[0].data.map(arr => arr.value),
+        fill: false,
+        backgroundColor: colorCode,
+        borderColor: colorCode,
+        pointBackgroundColor: colorCode
+      };
+      const yAxesLabels = data.result.data[0].data.map(arr => arr.year);
+      commit("addDemographics", demographics);
+      commit("setYAxesLabels", yAxesLabels);
+      element.disabled = false;
+    } catch (error) {
+      element.disabled = false;
+      console.log(`Error:${error}`);
+    }
   },
   removeDemographics({ commit }, { prefName }) {
     commit("removeDemographics", prefName);

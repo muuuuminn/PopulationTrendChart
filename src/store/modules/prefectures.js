@@ -12,18 +12,15 @@ const mutations = {
 };
 
 const actions = {
-  requestPrefectures({ commit }) {
-    axios({
-      method: "GET",
-      url: resas.prefecturesAPI,
-      headers: { "X-API-KEY": resas.apiKey }
-    })
-      .then(response => {
-        commit("setPrefectures", response.data.result);
-      })
-      .catch(error => {
-        console.log(error);
+  async requestPrefectures({ commit }) {
+    try {
+      const { data } = await axios.get(resas.prefecturesAPI, {
+        headers: { "X-API-KEY": resas.apiKey }
       });
+      commit("setPrefectures", data.result);
+    } catch (error) {
+      console.log(`Error:${error}`);
+    }
   }
 };
 

@@ -53,7 +53,14 @@ export default {
         tooltips: {
           mode: "point",
           intersect: true
-        }
+        },
+        animation: {
+          duration: 0
+        },
+        hover: {
+          animationDuration: 0
+        },
+        responsiveAnimationDuration: 0
       }
     };
   },

@@ -18,24 +18,12 @@ export default {
   },
   name: "Home",
   data() {
-    return {
-      chartData: null
-    };
+    return {};
   },
   computed: {
-    ...mapState("lineChart", ["datasets", "yAxesLabels"])
-  },
-  watch: {
-    datasets: function() {
-      this.fillChartData();
-    }
-  },
-  methods: {
-    fillChartData() {
-      this.chartData = {
-        labels: this.yAxesLabels,
-        datasets: this.datasets
-      };
+    ...mapState("lineChart", ["datasets", "yAxesLabels"]),
+    chartData() {
+      return { labels: this.yAxesLabels, datasets: this.datasets };
     }
   }
 };

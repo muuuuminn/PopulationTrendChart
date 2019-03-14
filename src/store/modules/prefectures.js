@@ -1,5 +1,6 @@
+import Vue from "vue";
 import { resas } from "@/apiConfig";
-import axios from "axios";
+import http from "../http";
 
 const state = {
   prefectures: []
@@ -14,12 +15,31 @@ const mutations = {
 const actions = {
   async requestPrefectures({ commit }) {
     try {
-      const { data } = await axios.get(resas.prefecturesAPI, {
-        headers: { "X-API-KEY": resas.apiKey }
-      });
+      const { data, statusCode, message } = await http.get(
+        resas.prefecturesAPI
+      );
+      if (statusCode == 403 || statusCode == 404) {
+        Vue.toasted.clear();
+        Vue.toasted.info(message, {
+          action: {
+            text: "Cancel",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
       commit("setPrefectures", data.result);
     } catch (error) {
-      console.log(`Error:${error}`);
+      Vue.toasted.clear();
+      Vue.toasted.info(error, {
+        action: {
+          text: "Cancel",
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      });
     }
   }
 };

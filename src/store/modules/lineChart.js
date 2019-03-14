@@ -1,5 +1,6 @@
+import Vue from "vue";
 import { resas } from "@/apiConfig";
-import axios from "axios";
+import http from "../http";
 import palette from "google-palette";
 
 const state = {
@@ -35,10 +36,23 @@ const actions = {
   async requestDemographics({ commit, getters }, { pref, element }) {
     try {
       element.disabled = true;
-      const { data } = await axios.get(resas.demographicsAPI, {
-        headers: { "X-API-KEY": resas.apiKey },
-        params: { prefCode: pref.prefCode }
-      });
+      const { data, statusCode, message } = await http.get(
+        resas.demographicsAPI,
+        {
+          params: { prefCode: pref.prefCode }
+        }
+      );
+      if (statusCode == 403 || statusCode == 404) {
+        Vue.toasted.clear();
+        Vue.toasted.info(message, {
+          action: {
+            text: "Cancel",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
       const colorCode = getters.pickColorCode(pref.prefCode);
       const demographics = {
         label: pref.prefName,
@@ -54,7 +68,15 @@ const actions = {
       element.disabled = false;
     } catch (error) {
       element.disabled = false;
-      console.log(`Error:${error}`);
+      Vue.toasted.clear();
+      Vue.toasted.info(error, {
+        action: {
+          text: "Cancel",
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      });
     }
   },
   removeDemographics({ commit }, { prefName }) {
